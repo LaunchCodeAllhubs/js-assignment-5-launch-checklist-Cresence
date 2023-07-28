@@ -1,9 +1,9 @@
 // Write your JavaScript code here!
-try {
-    const { myFetch, formSubmission, pickPlanet, addDestinationInfo } = require("./scriptHelper");
-} catch (err) {
-    console.log("Line 5 (script.js): Error happened");
-}
+// try {
+//     const { myFetch, formSubmission, pickPlanet, addDestinationInfo } = require("./scriptHelper");
+// } catch (err) {
+//     console.log("Line 5 (script.js): Error happened");
+// }
 
 
 window.addEventListener("load", function() {

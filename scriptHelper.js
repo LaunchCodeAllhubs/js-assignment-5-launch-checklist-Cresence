@@ -30,7 +30,7 @@ function validateInput(testInput) {
 
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     let check = [];
-    
+
     if (validateInput(pilot.value) === 'Not a Number') {
     } else if (validateInput(pilot.value) === 'Empty') {
         check.push(null);
@@ -40,8 +40,8 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
 
     if (validateInput(copilot.value) === 'Not a Number') {
         // pilotStatus = value
-        list.pilotStatus.textContent = `Pilot: ${pilot.value} is ready for launch`;
-        list.copilotStatus.textContent = `Co-pilot: ${copilot.value} is ready for launch`;
+        list.pilotStatus.innerHTML = `Pilot: ${pilot.value} is ready for launch`;
+        list.copilotStatus.innerHTML = `Co-pilot: ${copilot.value} is ready for launch`;
         // copilotStatus = value
     } else if (validateInput(copilot.value) === 'Empty') {
         check.push(null);
@@ -52,10 +52,10 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     if (validateInput(fuelLevel.value) === 'Is a Number') {
         if (Number(fuelLevel.value) >= 10_000) {
             // Do nothing
-            list.fuelStatus.textContent = "Fuel level high enough for launch";
+            list.fuelStatus.innerHTML = "Fuel level high enough for launch";
         } else {
             check.push(true);
-            list.fuelStatus.textContent = 'Fuel level is too low for launch';
+            list.fuelStatus.innerHTML = 'Fuel level is too low for launch';
         }
     } else if (validateInput(fuelLevel.value) === 'Empty') {
         check.push(null);
@@ -64,10 +64,10 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     }
     if (validateInput(cargoLevel.value) === 'Is a Number') {
         if (Number(cargoLevel.value) < 10_000) {
-            list.cargoStatus.textContent = "Cargo mass low enough for launch";
+            list.cargoStatus.innerHTML = "Cargo mass low enough for launch";
         } else {
             check.push(true);
-            list.cargoStatus.textContent = 
+            list.cargoStatus.innerHTML = 
             'Cargo mass is too large for launch';
         }
     } else if (validateInput(cargoLevel.value) === 'Empty') {
@@ -85,11 +85,11 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         alert("Make sure to enter valid information for each field!");
     } else if (check.has(true)) {
         document.querySelector("#faultyItems").style.visibility = "visible";
-        list.launchStatus.textContent = "Shuttle not ready for launch";
+        list.launchStatus.innerHTML = "Shuttle not ready for launch";
         list.launchStatus.style.color = "rgb(199, 37, 78)";
     } else {
         document.querySelector("#faultyItems").style.visibility = "visible";
-        list.launchStatus.textContent = "Shuttle is ready for launch";
+        list.launchStatus.innerHTML = "Shuttle is ready for launch";
         list.launchStatus.style.color  = "rgb(65, 159, 106)";
     }
     check.clear();
