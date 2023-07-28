@@ -1,14 +1,22 @@
 // Write your JavaScript code here!
+try {
+    const { myFetch, formSubmission } = require("./scriptHelper");
+} catch (err) {
+    console.log("Line 5 (script.js): Error happened");
+}
+
 
 window.addEventListener("load", function() {
-    // DOM elements
     const form = document.querySelector("form");
+    let pilot = document.querySelector("input[name=pilotName]");
+    let copilot = document.querySelector("input[name=copilotName]");
+    let fuelLevel = document.querySelector("input[name=fuelLevel]");
+    let cargoMass = document.querySelector("input[name=cargoMass]");
+
     form.addEventListener("submit", function(event) {
         event.preventDefault();
-        alert("Button clicked!");
+        console.log("clicked");
     })
-
-
    let listedPlanets;
    // Set listedPlanetsResponse equal to the value returned by calling myFetch()
    let listedPlanetsResponse;
