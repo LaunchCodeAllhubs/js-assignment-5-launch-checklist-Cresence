@@ -17,67 +17,76 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
 }
 
 function validateInput(testInput) {
-   switch (testInput) {
-    case "":
-        return 'Empty';
-        break;
-    case isNaN(Number(testInput)) === true:
-        return 'Not a Number';
-        break;
-    case isNaN(Number(testInput)) === false:
-        return 'Is a Number';
-    default:
-        return testInput;
-   }
-}
+   if (testInput === "") {
+    return 'Empty'
+   };
+   if (isNaN(testInput)) {
+    return 'Not a Number'
+   } else {
+    return 'Is a Number'
+   };
+};
 
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     let check = [];
-    if (validateInput(pilot.value) === pilot.value) {
-        check.push(true);
-        if (validateInput(copilot.value) === copilot.value) {
-            check.push(true);
-            // pilotStatus = value
-            list.pilotStatus.textContent += `: ${pilot.value}`;
-            list.copilotStatus.textContent += `: ${copilot.value}`;
-            // copilotStatus = value
-        } else {
-            alert("Co Pilot Name Needed!");
-            check.push(false);
-        }
+    console.log(list.cargoStatus.textContent)
+    console.log(list.fuelStatus.textContent)
+    if (validateInput(pilot.value) === 'Not a Number') {
+    } else if (validateInput(pilot.value) === 'Empty') {
+        check.push(null);
     } else {
-        alert("Pilot Name Needed!");
         check.push(false);
-    }
-    
+    };
+
+    if (validateInput(copilot.value) === 'Not a Number') {
+        // pilotStatus = value
+        list.pilotStatus.textContent = `Pilot: ${pilot.value} is ready for launch`;
+        list.copilotStatus.textContent = `Co-pilot: ${copilot.value} is ready for launch`;
+        // copilotStatus = value
+    } else if (validateInput(copilot.value) === 'Empty') {
+        check.push(null);
+    } else {
+        check.push(false);
+    };
+
     if (validateInput(fuelLevel.value) === 'Is a Number') {
         if (Number(fuelLevel.value) >= 10_000) {
+            // Do nothing
+            list.fuelStatus.textContent = "Fuel level high enough for launch";
+        } else {
             check.push(true);
-            // Correct values
-            list.fuelStatus.textConent += `:\n${fuelLevel.value}L`;
+            list.fuelStatus.textContent = 'Fuel level is too low for launch';
         }
+    } else if (validateInput(fuelLevel.value) === 'Empty') {
+        check.push(null);
     } else {
         check.push(false);
-        alert("Valid Fuel Number Needed!");
-        // faultyItems = visible
-        list.launchStatus.textContent = "Shuttle not ready for launch";
-        list.launchStatus.style.color = "red";
     }
     if (validateInput(cargoLevel.value) === 'Is a Number') {
         if (Number(cargoLevel.value) < 10_000) {
+            list.cargoStatus.textContent = "Cargo mass low enough for launch";
+        } else {
             check.push(true);
-            // Correct values
-            list.cargoStatus.textContent += `:\n${cargoLevel.value}kg`;
+            list.cargoStatus.textContent = 
+            'Cargo mass is too large for launch';
         }
+    } else if (validateInput(cargoLevel.value) === 'Empty') {
+        check.push(null)
     } else {
         check.push(false);
-        alert("Valid Cargo Number Needed!");
-        // faultyItems = visible
-        
     }
+
+    console.log('Before: ', check);
     check = new Set(check);
-    console.log(check);
-    if (check.has(false)) {
+    // console.log('After: ', check);
+
+    // Checking faulty values for FaultyItems div: Null = Empty, False = Incorrect Parameter, True = Correct Parameter / Failing Condition, Empty = Correct Parameters //
+    if (check.has(null)) {
+        alert("All fields required")
+    } else if (check.has(false)) {
+        alert("Make sure to enter valid information for each field!");
+    } else if (check.has(true)) {
+        document.querySelector("#faultyItems").style.visibility = "visible";
         list.launchStatus.textContent = "Shuttle not ready for launch";
         list.launchStatus.style.color = "rgb(199, 37, 78)";
     } else {
@@ -85,6 +94,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         list.launchStatus.textContent = "Shuttle is ready for launch";
         list.launchStatus.style.color  = "rgb(65, 159, 106)";
     }
+    check.clear();
 }
 
 async function myFetch() {

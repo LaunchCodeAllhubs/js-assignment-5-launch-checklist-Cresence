@@ -25,7 +25,6 @@ window.addEventListener("load", function() {
 
     form.addEventListener("submit", function(event) {
         event.preventDefault();
-        console.log("clicked");
         formSubmission(document, list, pilot, copilot, fuelLevel, cargoMass);
     })
    let listedPlanets;
