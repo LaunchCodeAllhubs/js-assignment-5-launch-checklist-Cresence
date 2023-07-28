@@ -32,40 +32,65 @@ function validateInput(testInput) {
 }
 
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
-    if (validateInput(pilot) === pilot) {
-        // pilotStatus = value
-    } else {
-        alert("Pilot Name Needed!");
-    }
-    if (validateInput(copilot) === copilot) {
-        // copilotStatus = value
-    } else {
-        alert("Pilot Name Needed!");
-    }
-    if (validateInput(fuelLevel) === 'Is a Number') {
-        if (Number(fuelLevel) < 10_000) {
-            // faultyItems = visible
+    let check = [];
+    if (validateInput(pilot.value) === pilot.value) {
+        check.push(true);
+        if (validateInput(copilot.value) === copilot.value) {
+            check.push(true);
+            // pilotStatus = value
+            list.pilotStatus.textContent += `: ${pilot.value}`;
+            list.copilotStatus.textContent += `: ${copilot.value}`;
+            // copilotStatus = value
+        } else {
+            alert("Co Pilot Name Needed!");
+            check.push(false);
         }
     } else {
+        alert("Pilot Name Needed!");
+        check.push(false);
+    }
+    
+    if (validateInput(fuelLevel.value) === 'Is a Number') {
+        if (Number(fuelLevel.value) >= 10_000) {
+            check.push(true);
+            // Correct values
+            list.fuelStatus.textConent += `:\n${fuelLevel.value}L`;
+        }
+    } else {
+        check.push(false);
         alert("Valid Fuel Number Needed!");
+        // faultyItems = visible
+        list.launchStatus.textContent = "Shuttle not ready for launch";
+        list.launchStatus.style.color = "red";
     }
-    if (validateInput(cargoLevel) === 'Is a Number') {
-        if (Number(cargoLevel) > 10_000) {
-            // faultyItems = visible
-            // color = rgb(199, 37, 78)
+    if (validateInput(cargoLevel.value) === 'Is a Number') {
+        if (Number(cargoLevel.value) < 10_000) {
+            check.push(true);
+            // Correct values
+            list.cargoStatus.textContent += `:\n${cargoLevel.value}kg`;
         }
     } else {
+        check.push(false);
         alert("Valid Cargo Number Needed!");
+        // faultyItems = visible
+        
     }
-    console.log(list)
-   
+    check = new Set(check);
+    console.log(check);
+    if (check.has(false)) {
+        list.launchStatus.textContent = "Shuttle not ready for launch";
+        list.launchStatus.style.color = "rgb(199, 37, 78)";
+    } else {
+        document.querySelector("#faultyItems").style.visibility = "visible";
+        list.launchStatus.textContent = "Shuttle is ready for launch";
+        list.launchStatus.style.color  = "rgb(65, 159, 106)";
+    }
 }
 
 async function myFetch() {
     let planetsReturned;
     try {
-        planetsReturned = await fetch().then( function(response) {
-            });
+        planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) { return response.json()});
     
         return planetsReturned;
     } catch (e) {
