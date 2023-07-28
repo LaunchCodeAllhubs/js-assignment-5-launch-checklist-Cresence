@@ -1,6 +1,6 @@
 // Write your JavaScript code here!
 try {
-    const { myFetch, formSubmission } = require("./scriptHelper");
+    const { myFetch, formSubmission, pickPlanet } = require("./scriptHelper");
 } catch (err) {
     console.log("Line 5 (script.js): Error happened");
 }
@@ -36,6 +36,7 @@ window.addEventListener("load", function() {
    }).then(function () {
        console.log(listedPlanets);
        // Below this comment call the appropriate helper functions to pick a planet fom the list of planets and add that information to your destination.
+       console.log(listedPlanets[pickPlanet(listedPlanets)]);
    })
    
 });

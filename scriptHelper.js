@@ -75,10 +75,8 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     } else {
         check.push(false);
     }
-
-    console.log('Before: ', check);
+    // Flatten array using Set for unique values
     check = new Set(check);
-    // console.log('After: ', check);
 
     // Checking faulty values for FaultyItems div: Null = Empty, False = Incorrect Parameter, True = Correct Parameter / Failing Condition, Empty = Correct Parameters //
     if (check.has(null)) {
@@ -110,7 +108,8 @@ async function myFetch() {
 }
 
 function pickPlanet(planets) {
-}
+    return Math.floor(Math.random()*(planets.length - 1))
+};
 
 module.exports.addDestinationInfo = addDestinationInfo;
 module.exports.validateInput = validateInput;
